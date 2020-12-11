@@ -6,6 +6,8 @@ github.com/asecurityteam/runsqs v0.1.0 h1:srKOMEXPRADRlO7WwP1yelU92ynBSUddbDu3SF
 github.com/asecurityteam/runsqs v0.1.0/go.mod h1:sPL5fV7M83ViUYX23Mkbk49m4YhhqKj09FthndGCq8U=
 github.com/asecurityteam/runsqs v0.3.0 h1:HeJabLm2Lb6mhAqAxVKVI3c3teWWEpv6KUvBsXNH5O0=
 github.com/asecurityteam/runsqs v0.3.0/go.mod h1:+SQLQ2cutoKULDRT8LLNXWFJV4XaqEpWzjlp1Y5DRAU=
+github.com/asecurityteam/runsqs v0.3.1 h1:omXH8ae/qO2sGl3Dh5SEg8Q+z4t7zoCtuKuu3nNkotg=
+github.com/asecurityteam/runsqs v0.3.1/go.mod h1:+SQLQ2cutoKULDRT8LLNXWFJV4XaqEpWzjlp1Y5DRAU=
 github.com/asecurityteam/settings v0.1.0/go.mod h1:Wb6bajm1AgHtjLP8ecv7RqUTCX1hvrIhgX4sF3Ras8c=
 github.com/aws/aws-sdk-go v1.33.4/go.mod h1:5zCpMtNQVjRREroY7sYe8lOMRSxkhG6MZveU8YkpAk0=
 github.com/aws/aws-sdk-go v1.35.0 h1:Pxqn1MWNfBCNcX7jrXCCTfsKpg5ms2IMUMmmcGtYJuo=
