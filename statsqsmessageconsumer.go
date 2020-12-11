@@ -87,7 +87,7 @@ type StatMessageConsumer struct {
 
 // ConsumeMessage pulls an `xstats.XStater` from the context, performs stats around message consumption and invokes the
 // wrapped `SQSMessageConsumer.ConsumeMessage`.
-func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) error {
+func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
 	stat := xstats.FromContext(ctx)
 	// consumerLag - Time.Duration between the time immediately before the message is processed and its Record.ApproximateArrivalTimestamp,
 	//which is the timestamp of when the record was inserted into the SQS queue.
@@ -109,9 +109,9 @@ func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Me
 	stat.Count(t.ConsumedSize, float64(len([]byte(*message.Body))))
 
 	var start = time.Now()
-	err = t.wrapped.ConsumeMessage(ctx, message)
+	consumeerr := t.wrapped.ConsumeMessage(ctx, message)
 	var end = time.Now().Sub(start)
-	if err == nil {
+	if consumeerr == nil {
 		// consumerSuccessCounter - Incremented for every message processed successfully
 		stat.Count(t.ConsumerSuccessCounter, 1)
 		// consumerTimingSuccess - Time.Duration for processing of a message which is successfully processed by underlying SQS consumer
@@ -122,7 +122,7 @@ func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Me
 		// consumerTimingFailure - Time.Duration for processing of a message which underlying SQS consumer fails to process
 		stat.Timing(t.ConsumerTimingFailure, end)
 	}
-	return err
+	return consumeerr
 }
 
 // NewStatMessageConsumer returns a function that wraps a `runsqs.SQSMessageConsumer` in a

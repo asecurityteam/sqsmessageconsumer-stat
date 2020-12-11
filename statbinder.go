@@ -21,7 +21,7 @@ type StatBinder struct {
 
 // ConsumeMessage injects an `xstats.XStater` into the context and invokes the
 // wrapped `SQSMessageConsumer`.
-func (t *StatBinder) ConsumeMessage(ctx context.Context, message *sqs.Message) error {
+func (t *StatBinder) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
 	ctx = xstats.NewContext(ctx, xstats.Copy(t.stats))
 	return t.wrapped.ConsumeMessage(ctx, message)
 }

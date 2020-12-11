@@ -2,7 +2,6 @@ package stat
 
 import (
 	"context"
-	"errors"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/service/sqs"
@@ -28,7 +27,7 @@ func TestStatMessageConsumer_ConsumeMessageSuccess(t *testing.T) {
 		wrapped:                mockMessageConsumer,
 	}
 
-	var incomingDataRecord string = "data"
+	incomingDataRecord := "data"
 
 	// random unix time
 	currentTime := "1602014628"
@@ -58,6 +57,7 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 	defer ctrl.Finish()
 
 	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
+	mockSQSMessageConsumerError := NewMockSQSMessageConsumerError(ctrl)
 	mockStater := NewMockStat(ctrl)
 
 	statMessageConsumer := StatMessageConsumer{
@@ -69,7 +69,7 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 		wrapped:               mockMessageConsumer,
 	}
 
-	var incomingDataRecord string = "data"
+	incomingDataRecord := "data"
 
 	// random unix time
 	currentTime := "1602014628"
@@ -87,7 +87,7 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 		mockStater.EXPECT().Timing(consumerTimingFailure, gomock.Any()),
 	)
 
-	mockMessageConsumer.EXPECT().ConsumeMessage(gomock.Any(), gomock.Any()).Return(errors.New("consume error"))
+	mockMessageConsumer.EXPECT().ConsumeMessage(gomock.Any(), gomock.Any()).Return(mockSQSMessageConsumerError)
 	e := statMessageConsumer.ConsumeMessage(xstats.NewContext(context.Background(), mockStater), &sqsMessage)
 	assert.NotNil(t, e)
 
