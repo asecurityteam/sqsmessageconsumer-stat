@@ -109,9 +109,9 @@ func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Me
 	stat.Count(t.ConsumedSize, float64(len([]byte(*message.Body))))
 
 	var start = time.Now()
-	consumeerr := t.wrapped.ConsumeMessage(ctx, message)
+	consumeErr := t.wrapped.ConsumeMessage(ctx, message)
 	var end = time.Now().Sub(start)
-	if consumeerr == nil {
+	if consumeErr == nil {
 		// consumerSuccessCounter - Incremented for every message processed successfully
 		stat.Count(t.ConsumerSuccessCounter, 1)
 		// consumerTimingSuccess - Time.Duration for processing of a message which is successfully processed by underlying SQS consumer
@@ -122,7 +122,7 @@ func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Me
 		// consumerTimingFailure - Time.Duration for processing of a message which underlying SQS consumer fails to process
 		stat.Timing(t.ConsumerTimingFailure, end)
 	}
-	return consumeerr
+	return consumeErr
 }
 
 // NewStatMessageConsumer returns a function that wraps a `runsqs.SQSMessageConsumer` in a
