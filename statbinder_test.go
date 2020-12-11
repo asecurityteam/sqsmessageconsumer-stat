@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/asecurityteam/runsqs"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/golang/mock/gomock"
 	"github.com/rs/xstats"
@@ -14,7 +15,7 @@ type dummyMessageconsumer struct {
 	testFunc func(ctx context.Context)
 }
 
-func (t *dummyMessageconsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) error {
+func (t *dummyMessageconsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
 	return nil
 }
 
