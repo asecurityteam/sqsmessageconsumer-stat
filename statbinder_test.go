@@ -19,6 +19,8 @@ func (t *dummyMessageconsumer) ConsumeMessage(ctx context.Context, message *sqs.
 	return nil
 }
 
+func (t *dummyMessageconsumer) DeadLetter(ctx context.Context, message *sqs.Message) {}
+
 func TestStatBinder_ProcessMessage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -35,5 +37,5 @@ func TestStatBinder_ProcessMessage(t *testing.T) {
 		testFunc: consumerMessageFunc,
 	})
 
-	messageConsumer.ConsumeMessage(context.Background(), &sqs.Message{})
+	messageConsumer.ConsumeMessage(context.Background(), &sqs.Message{}) // nolint
 }

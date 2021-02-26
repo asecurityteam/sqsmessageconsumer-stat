@@ -26,6 +26,13 @@ func (t *StatBinder) ConsumeMessage(ctx context.Context, message *sqs.Message) r
 	return t.wrapped.ConsumeMessage(ctx, message)
 }
 
+// DeadLetter injects an `xstats.XStater` into the context and invokes the
+// wrapped `SQSMessageConsumer`.
+func (t *StatBinder) DeadLetter(ctx context.Context, message *sqs.Message) {
+	ctx = xstats.NewContext(ctx, xstats.Copy(t.stats))
+	t.wrapped.DeadLetter(ctx, message)
+}
+
 // NewStatBinder returns a function that wraps a `runsqs.SQSMessageConsumer` in a
 // `StatBinder` `runsqs.SQSMessageConsumer`.
 func NewStatBinder(stats xstats.XStater) func(runsqs.SQSMessageConsumer) runsqs.SQSMessageConsumer {
