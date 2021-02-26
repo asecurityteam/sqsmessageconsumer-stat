@@ -27,7 +27,7 @@ func TestStatMessageConsumer_ConsumeMessageSuccess(t *testing.T) {
 		wrapped:                mockMessageConsumer,
 	}
 
-	incomingDataRecord := "data"
+	incomingDataRecord := "data" // nolint
 
 	// random unix time
 	currentTime := "1602014628"
@@ -69,7 +69,7 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 		wrapped:               mockMessageConsumer,
 	}
 
-	incomingDataRecord := "data"
+	incomingDataRecord := "data" // nolint
 
 	// random unix time
 	currentTime := "1602014628"
@@ -90,6 +90,38 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 	mockMessageConsumer.EXPECT().ConsumeMessage(gomock.Any(), gomock.Any()).Return(mockSQSMessageConsumerError)
 	e := statMessageConsumer.ConsumeMessage(xstats.NewContext(context.Background(), mockStater), &sqsMessage)
 	assert.NotNil(t, e)
+
+}
+
+func TestStatMessageConsumer_DeadLetter(t *testing.T) {
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
+	mockStater := NewMockStat(ctrl)
+
+	statMessageConsumer := StatMessageConsumer{
+		ConsumerDeadLetterCounter: consumerDeadLetterCounter,
+		wrapped:                   mockMessageConsumer,
+	}
+
+	incomingDataRecord := "data" // nolint
+
+	// random unix time
+	currentTime := "1602014628"
+	sqsMessage := sqs.Message{
+		Body: &incomingDataRecord,
+		Attributes: map[string]*string{
+			"SentTimestamp": &currentTime,
+		},
+	}
+	gomock.InOrder(
+		mockStater.EXPECT().Count(consumerDeadLetterCounter, gomock.Any()),
+	)
+
+	mockMessageConsumer.EXPECT().DeadLetter(gomock.Any(), gomock.Any())
+	statMessageConsumer.DeadLetter(xstats.NewContext(context.Background(), mockStater), &sqsMessage)
 
 }
 
