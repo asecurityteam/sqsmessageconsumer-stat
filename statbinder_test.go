@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/asecurityteam/runsqs"
+	"github.com/asecurityteam/runsqs/v2"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/golang/mock/gomock"
 	"github.com/rs/xstats"
