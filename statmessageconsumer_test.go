@@ -18,7 +18,7 @@ func TestStatMessageConsumer_ConsumeMessageSuccess(t *testing.T) {
 	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
 	mockStater := NewMockStat(ctrl)
 
-	statMessageConsumer := StatMessageConsumer{
+	statMessageConsumer := MessageConsumer{
 		ConsumedCounter:        consumedCounter,
 		ConsumerSuccessCounter: consumerSuccessCounter,
 		ConsumedSize:           consumedSize,
@@ -60,7 +60,7 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 	mockSQSMessageConsumerError := NewMockSQSMessageConsumerError(ctrl)
 	mockStater := NewMockStat(ctrl)
 
-	statMessageConsumer := StatMessageConsumer{
+	statMessageConsumer := MessageConsumer{
 		ConsumedCounter:       consumedCounter,
 		ConsumerErrorCounter:  consumerErrorCounter,
 		ConsumedSize:          consumedSize,
@@ -101,7 +101,7 @@ func TestStatMessageConsumer_DeadLetter(t *testing.T) {
 	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
 	mockStater := NewMockStat(ctrl)
 
-	statMessageConsumer := StatMessageConsumer{
+	statMessageConsumer := MessageConsumer{
 		ConsumerDeadLetterCounter: consumerDeadLetterCounter,
 		wrapped:                   mockMessageConsumer,
 	}
