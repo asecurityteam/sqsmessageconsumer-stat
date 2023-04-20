@@ -21,8 +21,8 @@ const (
 	consumerDeadLetterCounter = "sqs.deadletter"
 )
 
-// StatMessageConsumerConfig is the config for creating a StatMessageConsumer
-type StatMessageConsumerConfig struct {
+// MessageConsumerConfig is the config for creating a MessageConsumer
+type MessageConsumerConfig struct {
 	ConsumedCounter           string `description:"Name of overall sqs record consumption metric."`
 	ConsumerSuccessCounter    string `description:"Name of overall successful sqs message consumption metric."`
 	ConsumerErrorCounter      string `description:"Name of overall failed sqs message consumption metric."`
@@ -34,21 +34,21 @@ type StatMessageConsumerConfig struct {
 }
 
 // Name of the config root.
-func (*StatMessageConsumerConfig) Name() string {
+func (*MessageConsumerConfig) Name() string {
 	return "sqsconsumerMetrics"
 }
 
-// StatMessageConsumerComponent implements the settings.Component interface.
-type StatMessageConsumerComponent struct{}
+// MessageConsumerComponent implements the settings.Component interface.
+type MessageConsumerComponent struct{}
 
 // NewComponent populates default values.
-func NewComponent() *StatMessageConsumerComponent {
-	return &StatMessageConsumerComponent{}
+func NewComponent() *MessageConsumerComponent {
+	return &MessageConsumerComponent{}
 }
 
 // Settings generates a config populated with defaults.
-func (*StatMessageConsumerComponent) Settings() *StatMessageConsumerConfig {
-	return &StatMessageConsumerConfig{
+func (*MessageConsumerComponent) Settings() *MessageConsumerConfig {
+	return &MessageConsumerConfig{
 		ConsumedCounter:           consumedCounter,
 		ConsumerSuccessCounter:    consumerSuccessCounter,
 		ConsumerErrorCounter:      consumerErrorCounter,
@@ -60,10 +60,10 @@ func (*StatMessageConsumerComponent) Settings() *StatMessageConsumerConfig {
 	}
 }
 
-func (c *StatMessageConsumerComponent) New(_ context.Context, conf *StatMessageConsumerConfig) (func(runsqs.SQSMessageConsumer) runsqs.SQSMessageConsumer, error) { // nolint
+func (c *MessageConsumerComponent) New(_ context.Context, conf *MessageConsumerConfig) (func(runsqs.SQSMessageConsumer) runsqs.SQSMessageConsumer, error) { // nolint
 
 	return func(consumer runsqs.SQSMessageConsumer) runsqs.SQSMessageConsumer {
-		return &StatMessageConsumer{
+		return &MessageConsumer{
 			ConsumedCounter:           conf.ConsumedCounter,
 			ConsumerSuccessCounter:    conf.ConsumerSuccessCounter,
 			ConsumerErrorCounter:      conf.ConsumerErrorCounter,
@@ -77,8 +77,8 @@ func (c *StatMessageConsumerComponent) New(_ context.Context, conf *StatMessageC
 	}, nil
 }
 
-// StatMessageConsumer a is wrapper around runsqs.SQSMessageConsumer to capture and emit SQS related stats
-type StatMessageConsumer struct {
+// MessageConsumer a is wrapper around runsqs.SQSMessageConsumer to capture and emit SQS related stats
+type MessageConsumer struct {
 	ConsumedCounter           string
 	ConsumerSuccessCounter    string
 	ConsumerErrorCounter      string
@@ -92,7 +92,7 @@ type StatMessageConsumer struct {
 
 // ConsumeMessage pulls an `xstats.XStater` from the context, performs stats around message consumption and invokes the
 // wrapped `SQSMessageConsumer.ConsumeMessage`.
-func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
+func (t MessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
 	stat := xstats.FromContext(ctx)
 	// consumerLag - Time.Duration between the time immediately before the message is processed and its Record.ApproximateArrivalTimestamp,
 	//which is the timestamp of when the record was inserted into the SQS queue.
@@ -132,7 +132,7 @@ func (t StatMessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Me
 
 // DeadLetter pulls an `xstats.XStater` from the context, performs stats around message dead lettering and invokes the
 // wrapped `SQSMessageConsumer.DeadLetter`.
-func (t StatMessageConsumer) DeadLetter(ctx context.Context, message *sqs.Message) {
+func (t MessageConsumer) DeadLetter(ctx context.Context, message *sqs.Message) {
 	stat := xstats.FromContext(ctx)
 
 	// for DeadLetter stating, we just count how many messages are DeadLettered
@@ -142,9 +142,9 @@ func (t StatMessageConsumer) DeadLetter(ctx context.Context, message *sqs.Messag
 }
 
 // NewStatMessageConsumer returns a function that wraps a `runsqs.SQSMessageConsumer` in a
-// `StatMessageConsumer` `runsqs.SQSMessageConsumer`.
+// `MessageConsumer` `runsqs.SQSMessageConsumer`.
 func NewStatMessageConsumer() func(runsqs.SQSMessageConsumer) runsqs.SQSMessageConsumer {
 	return func(consumer runsqs.SQSMessageConsumer) runsqs.SQSMessageConsumer {
-		return &StatMessageConsumer{wrapped: consumer}
+		return &MessageConsumer{wrapped: consumer}
 	}
 }
