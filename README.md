@@ -1,8 +1,6 @@
 <a id="markdown-sqsmessageconsumer-stat---an-implementation-of-sqsmessageconsumer-that-adds-stats" name="sqsmessageconsumer-stat---an-implementation-of-sqsmessageconsumer-that-adds-stats"></a>
 # sqsmessageconsumer - An implementation of sqsmessageconsumer that adds stats
 [![GoDoc](https://godoc.org/github.com/asecurityteam/sqsmessageconsumer-stat?status.svg)](https://godoc.org/github.com/asecurityteam/sqsmessageconsumer-stat)
-[![Build Status](https://travis-ci.com/asecurityteam/logevent.png?branch=master)](https://travis-ci.com/asecurityteam/sqsmessageconsumer-stat)
-[![codecov.io](https://codecov.io/github/asecurityteam/sqsmessageconsumer-stat/coverage.svg?branch=master)](https://codecov.io/github/asecurityteam/logevent?branch=master)
 <!-- TOC -->
 
 - [sqsmessageconsumer-stat - An implementation of sqsmessageconsumer that adds stats](#sqsmessageconsumer-stat---an-implementation-of-sqsmessageconsumer-that-adds-stats)
