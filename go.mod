@@ -5,7 +5,6 @@ go 1.22
 toolchain go1.23.1
 
 require (
-	github.com/asecurityteam/runsqs/v2 v2.7.0
 	github.com/asecurityteam/runsqs/v3 v3.0.1
 	github.com/aws/aws-sdk-go v1.55.5
 	github.com/golang/mock v1.6.0
@@ -19,6 +18,7 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
