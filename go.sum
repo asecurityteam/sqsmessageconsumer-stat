@@ -1,7 +1,11 @@
 github.com/asecurityteam/logevent v1.6.1 h1:D/V11UxgZMBrktTgL3ugRO4hKdBWkz/xLBlpqDq4PoM=
 github.com/asecurityteam/logevent v1.6.1/go.mod h1:wtopE0Pe+072poxy+lGBMah604Uu6/BVwFWRwKwF3TA=
+github.com/asecurityteam/logevent/v2 v2.0.1 h1:2JMgyGZFwSOm+sKGlDZUQe0DCdUcmD0cFU6SqbJ4YKI=
+github.com/asecurityteam/logevent/v2 v2.0.1/go.mod h1:g6tvuTu9o9gC3vluYjAXr069xAfc4rJ2Hy/vsmuT1Ck=
 github.com/asecurityteam/runsqs/v3 v3.0.1 h1:lrEoMW9jlIpB5B6xNxvY7r+k3RRSndUgomhaBgVK99k=
 github.com/asecurityteam/runsqs/v3 v3.0.1/go.mod h1:PyfZi5vs1zOG3KPFG3eloQehkqHzILBpW86t/0w+1AY=
+github.com/asecurityteam/runsqs/v3 v3.0.2 h1:9bxuxJSepD8Lm/kxgMqzP25yN6M/gQA0xFnrCcBxlpI=
+github.com/asecurityteam/runsqs/v3 v3.0.2/go.mod h1:NIeDhD87gzMmLySFg9YuKbBnc4+9v8axWSyf6zK5C2A=
 github.com/aws/aws-sdk-go v1.55.5 h1:KKUZBfBoyqy5d3swXyiC7Q76ic40rYcbqH7qjh59kzU=
 github.com/aws/aws-sdk-go v1.55.5/go.mod h1:eRwEWoyTWFMVYVQzKMNHWP5/RV4xIUGMQfXQHfHkpNU=
 github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
