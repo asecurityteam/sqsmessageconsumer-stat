@@ -2,10 +2,10 @@ module github.com/asecurityteam/sqsmessageconsumer-stat
 
 go 1.22
 
-toolchain go1.23.1
+toolchain go1.23.2
 
 require (
-	github.com/asecurityteam/runsqs/v3 v3.0.1
+	github.com/asecurityteam/runsqs/v3 v3.0.2
 	github.com/aws/aws-sdk-go v1.55.5
 	github.com/golang/mock v1.6.0
 	github.com/rs/xstats v0.0.0-20170813190920-c67367528e16
@@ -14,6 +14,7 @@ require (
 
 require (
 	github.com/asecurityteam/logevent v1.6.1 // indirect
+	github.com/asecurityteam/logevent/v2 v2.0.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
