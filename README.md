@@ -2,6 +2,7 @@
 # sqsmessageconsumer - An implementation of sqsmessageconsumer that adds stats
 [![GoDoc](https://godoc.org/github.com/asecurityteam/sqsmessageconsumer-stat?status.svg)](https://godoc.org/github.com/asecurityteam/sqsmessageconsumer-stat)
 
+
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=asecurityteam_sqsmessageconsumer-stat&metric=bugs)](https://sonarcloud.io/dashboard?id=asecurityteam_sqsmessageconsumer-stat)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=asecurityteam_sqsmessageconsumer-stat&metric=code_smells)](https://sonarcloud.io/dashboard?id=asecurityteam_sqsmessageconsumer-stat)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=asecurityteam_sqsmessageconsumer-stat&metric=coverage)](https://sonarcloud.io/dashboard?id=asecurityteam_sqsmessageconsumer-stat)
@@ -18,6 +19,7 @@
 
 [![Build Status](https://travis-ci.com/asecurityteam/logevent.png?branch=master)](https://travis-ci.com/asecurityteam/sqsmessageconsumer-stat)
 [![codecov.io](https://codecov.io/github/asecurityteam/sqsmessageconsumer-stat/coverage.svg?branch=master)](https://codecov.io/github/asecurityteam/logevent?branch=master)
+
 <!-- TOC -->
 
 - [sqsmessageconsumer-stat - An implementation of sqsmessageconsumer that adds stats](#sqsmessageconsumer-stat---an-implementation-of-sqsmessageconsumer-that-adds-stats)
