@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/service/sqs"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	"github.com/rs/xstats"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 )
 
 func TestStatMessageConsumer_ConsumeMessageSuccess(t *testing.T) {
@@ -16,7 +16,7 @@ func TestStatMessageConsumer_ConsumeMessageSuccess(t *testing.T) {
 	defer ctrl.Finish()
 
 	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
-	mockStater := NewMockStat(ctrl)
+	mockStater := NewMockXStater(ctrl)
 
 	statMessageConsumer := MessageConsumer{
 		ConsumedCounter:        consumedCounter,
@@ -31,10 +31,10 @@ func TestStatMessageConsumer_ConsumeMessageSuccess(t *testing.T) {
 
 	// random unix time
 	currentTime := "1602014628"
-	sqsMessage := sqs.Message{
+	sqsMessage := types.Message{
 		Body: &incomingDataRecord,
-		Attributes: map[string]*string{
-			"SentTimestamp": &currentTime,
+		Attributes: map[string]string{
+			"SentTimestamp": currentTime,
 		},
 	}
 	gomock.InOrder(
@@ -58,7 +58,7 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 
 	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
 	mockSQSMessageConsumerError := NewMockSQSMessageConsumerError(ctrl)
-	mockStater := NewMockStat(ctrl)
+	mockStater := NewMockXStater(ctrl)
 
 	statMessageConsumer := MessageConsumer{
 		ConsumedCounter:       consumedCounter,
@@ -73,10 +73,10 @@ func TestStatMessageConsumer_ConsumeMessageFailure(t *testing.T) {
 
 	// random unix time
 	currentTime := "1602014628"
-	sqsMessage := sqs.Message{
+	sqsMessage := types.Message{
 		Body: &incomingDataRecord,
-		Attributes: map[string]*string{
-			"SentTimestamp": &currentTime,
+		Attributes: map[string]string{
+			"SentTimestamp": currentTime,
 		},
 	}
 	gomock.InOrder(
@@ -99,7 +99,7 @@ func TestStatMessageConsumer_DeadLetter(t *testing.T) {
 	defer ctrl.Finish()
 
 	mockMessageConsumer := NewMockSQSMessageConsumer(ctrl)
-	mockStater := NewMockStat(ctrl)
+	mockStater := NewMockXStater(ctrl)
 
 	statMessageConsumer := MessageConsumer{
 		ConsumerDeadLetterCounter: consumerDeadLetterCounter,
@@ -110,10 +110,10 @@ func TestStatMessageConsumer_DeadLetter(t *testing.T) {
 
 	// random unix time
 	currentTime := "1602014628"
-	sqsMessage := sqs.Message{
+	sqsMessage := types.Message{
 		Body: &incomingDataRecord,
-		Attributes: map[string]*string{
-			"SentTimestamp": &currentTime,
+		Attributes: map[string]string{
+			"SentTimestamp": currentTime,
 		},
 	}
 	gomock.InOrder(

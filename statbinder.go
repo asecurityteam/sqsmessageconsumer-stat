@@ -3,8 +3,8 @@ package stat
 import (
 	"context"
 
-	"github.com/asecurityteam/runsqs/v3"
-	"github.com/aws/aws-sdk-go/service/sqs"
+	"github.com/asecurityteam/runsqs/v4"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	"github.com/rs/xstats"
 )
 
@@ -21,14 +21,14 @@ type Binder struct {
 
 // ConsumeMessage injects an `xstats.XStater` into the context and invokes the
 // wrapped `SQSMessageConsumer`.
-func (t *Binder) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
+func (t *Binder) ConsumeMessage(ctx context.Context, message *types.Message) runsqs.SQSMessageConsumerError {
 	ctx = xstats.NewContext(ctx, xstats.Copy(t.stats))
 	return t.wrapped.ConsumeMessage(ctx, message)
 }
 
 // DeadLetter injects an `xstats.XStater` into the context and invokes the
 // wrapped `SQSMessageConsumer`.
-func (t *Binder) DeadLetter(ctx context.Context, message *sqs.Message) {
+func (t *Binder) DeadLetter(ctx context.Context, message *types.Message) {
 	ctx = xstats.NewContext(ctx, xstats.Copy(t.stats))
 	t.wrapped.DeadLetter(ctx, message)
 }
