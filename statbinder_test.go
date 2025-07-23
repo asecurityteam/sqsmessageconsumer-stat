@@ -4,28 +4,28 @@ import (
 	"context"
 	"testing"
 
-	"github.com/asecurityteam/runsqs/v3"
-	"github.com/aws/aws-sdk-go/service/sqs"
-	"github.com/golang/mock/gomock"
+	runsqs "github.com/asecurityteam/runsqs/v4"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	"github.com/rs/xstats"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
 )
 
 type dummyMessageconsumer struct {
 	testFunc func(ctx context.Context)
 }
 
-func (t *dummyMessageconsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
+func (t *dummyMessageconsumer) ConsumeMessage(ctx context.Context, message *types.Message) runsqs.SQSMessageConsumerError {
 	return nil
 }
 
-func (t *dummyMessageconsumer) DeadLetter(ctx context.Context, message *sqs.Message) {}
+func (t *dummyMessageconsumer) DeadLetter(ctx context.Context, message *types.Message) {}
 
 func TestStatBinder_ProcessMessage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockStater := NewMockStat(ctrl)
+	mockStater := NewMockXStater(ctrl)
 
 	consumerMessageFunc := func(ctx context.Context) {
 		stater := xstats.FromContext(ctx)
@@ -37,5 +37,5 @@ func TestStatBinder_ProcessMessage(t *testing.T) {
 		testFunc: consumerMessageFunc,
 	})
 
-	messageConsumer.ConsumeMessage(context.Background(), &sqs.Message{}) // nolint
+	messageConsumer.ConsumeMessage(context.Background(), &types.Message{}) // nolint
 }

@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/asecurityteam/runsqs/v3"
-	"github.com/aws/aws-sdk-go/service/sqs"
+	runsqs "github.com/asecurityteam/runsqs/v4"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	"github.com/rs/xstats"
 )
 
@@ -92,13 +92,13 @@ type MessageConsumer struct {
 
 // ConsumeMessage pulls an `xstats.XStater` from the context, performs stats around message consumption and invokes the
 // wrapped `SQSMessageConsumer.ConsumeMessage`.
-func (t MessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Message) runsqs.SQSMessageConsumerError {
+func (t MessageConsumer) ConsumeMessage(ctx context.Context, message *types.Message) runsqs.SQSMessageConsumerError {
 	stat := xstats.FromContext(ctx)
 	// consumerLag - Time.Duration between the time immediately before the message is processed and its Record.ApproximateArrivalTimestamp,
 	//which is the timestamp of when the record was inserted into the SQS queue.
 	messageArrivalTimeStampInUnix := message.Attributes["SentTimestamp"]
 
-	unixTimeStamp, err := strconv.ParseInt(*messageArrivalTimeStampInUnix, 10, 64)
+	unixTimeStamp, err := strconv.ParseInt(messageArrivalTimeStampInUnix, 10, 64)
 	if err != nil {
 		panic(err)
 	}
@@ -132,7 +132,7 @@ func (t MessageConsumer) ConsumeMessage(ctx context.Context, message *sqs.Messag
 
 // DeadLetter pulls an `xstats.XStater` from the context, performs stats around message dead lettering and invokes the
 // wrapped `SQSMessageConsumer.DeadLetter`.
-func (t MessageConsumer) DeadLetter(ctx context.Context, message *sqs.Message) {
+func (t MessageConsumer) DeadLetter(ctx context.Context, message *types.Message) {
 	stat := xstats.FromContext(ctx)
 
 	// for DeadLetter stating, we just count how many messages are DeadLettered
