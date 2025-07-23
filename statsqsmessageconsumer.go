@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/asecurityteam/runsqs/v4"
+	runsqs "github.com/asecurityteam/runsqs/v4"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	"github.com/rs/xstats"
 )
